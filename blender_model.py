@@ -12,7 +12,13 @@ def get_or_create_material(name, color, metallic=0.0, roughness=0.5):
         material = bpy.data.materials.new(name=name)
 
     material.use_nodes = True
-    principled = material.node_tree.nodes.get("Principled BSDF")
+    nodes = material.node_tree.nodes
+    principled = nodes.get("Principled BSDF")
+    if principled is None:
+        principled = nodes.new(type="ShaderNodeBsdfPrincipled")
+        output = nodes.get("Material Output")
+        if output is not None:
+            material.node_tree.links.new(principled.outputs["BSDF"], output.inputs["Surface"])
     principled.inputs["Base Color"].default_value = color
     principled.inputs["Metallic"].default_value = metallic
     principled.inputs["Roughness"].default_value = roughness
@@ -52,11 +58,11 @@ def move_to_collection(obj, collection):
             current.objects.unlink(obj)
 
 
-def create_cube(name, size, location, material, collection, rotation=(0.0, 0.0, 0.0)):
-    bpy.ops.mesh.primitive_cube_add(size=1.0, location=location, rotation=rotation)
+def create_cube(name, scale, location, material, collection, rotation_euler=(0.0, 0.0, 0.0)):
+    bpy.ops.mesh.primitive_cube_add(size=1.0, location=location, rotation=rotation_euler)
     obj = bpy.context.active_object
     obj.name = name
-    obj.scale = size
+    obj.scale = scale
     bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
     assign_material(obj, material)
     move_to_collection(obj, collection)
@@ -89,7 +95,7 @@ def build_model():
             (0.0, 0.0, 1.55),
             black,
             collection,
-            rotation=(0.0, 0.0, radians(18)),
+            rotation_euler=(0.0, 0.0, radians(18)),
         ),
     ]
 
