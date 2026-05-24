@@ -89,7 +89,7 @@ def build_model():
             (0.0, 0.0, 1.55),
             black,
             collection,
-            rotation=(0.0, radians(0), radians(18)),
+            rotation=(0.0, 0.0, radians(18)),
         ),
     ]
 
@@ -106,4 +106,5 @@ def build_model():
     return model
 
 
-build_model()
+if __name__ == "__main__":
+    build_model()
