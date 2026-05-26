@@ -101,3 +101,66 @@
 // const numbers = [3, 1, 4, 1, 5, 9, 2];
 // const maxNumber = Math.max(...numbers);
 // console.log(maxNumber);
+// const p = new Promise((resolve, reject) => {
+//   const age = 20; // Example age
+//   age > 18 ? resolve("Доступ разрешён") : reject("Доступ запрещён");
+// });
+// p.then(message => console.log(message))
+
+// const p = new Promise((resolve, reject) => {
+//   resolve("5");
+// });
+// p.then(result => {
+//   return new Promise((resolve,reject) => {
+//     const doubled = result * 2;
+//     resolve(result);
+//   });
+// });
+// p.then(biber => {
+//   return new Promise((resolve,reject) => {
+//     const incremented = biber + 3;
+//     resolve(biber);
+//   });
+// })
+// p.then(result => {  console.log(result);
+// });
+// p.catch(error => {
+//   console.error(error);
+// });
+// const p = new Promise((resolve, reject) => {
+//  function getUser(id){
+//     if(id === 1){
+//       resolve({id: 1, name: "Иван"});
+//     }
+//     else if(id !== 1){
+//       reject("Пользователь не найден");
+//     }
+// }
+// }).then(result => {
+//   console.log(result);
+// }).catch(error => {
+//   console.error(error);
+// });
+// const p1 = new Promise(resolve => setTimeout(() => resolve("Меч"), 300));
+// const p2 = new Promise(resolve => setTimeout(() => resolve("Щит"), 500));
+// const p3 = new Promise(resolve => setTimeout(() => resolve("Зелье"), 200));
+
+// Promise.all([p1, p2, p3]).then(results => {
+//   console.log(results);});
+
+function delay(ms){
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+delay(2000).then(() => console.log("Прошло 2 секунды"));
+
+function convertUSD(amount){
+  return new Promise((resolve, reject) => {
+     if(amount > 0) {
+      resolve(amount * 40);
+    }
+     else {
+      reject("Сумма должна быть положительной");
+    };
+    });
+  };
+  convertUSD(100).then(result => console.log(result)).catch(error => console.error(error));
